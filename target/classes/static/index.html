@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Spring Boot - PUCRS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgba(18, 22, 38, 1) 0%, rgba(10, 12, 22, 1) 90%);
+            --card-bg: rgba(26, 31, 56, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 18, 35, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a5b4fc, #6366f1, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            margin-top: 10px;
+        }
+
+        .badge-status::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 8px #34d399;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1080px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 26px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .display-screen {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: right;
+        }
+
+        .display-expression {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            min-height: 20px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .display-result {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #38bdf8;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+
+        .operations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .op-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .op-btn span {
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .op-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .op-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .op-btn.active span {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .calc-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .calc-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .history-item {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateX(4px);
+        }
+
+        .history-expr {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .history-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .history-res {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 10px;
+            font-size: 0.95rem;
+        }
+
+        .links-bar {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .api-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .api-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent);
+            color: #38bdf8;
+        }
+
+        .alert-box {
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 0.88rem;
+            display: none;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Calculadora Spring Boot</h1>
+        <p>Construção de Software (Semana 5) • PUCRS</p>
+        <div class="badge-status">API Online na Porta 8085</div>
+    </div>
+
+    <div class="container">
+        <!-- Calculadora Interativa -->
+        <div class="card">
+            <div class="card-title">
+                <span>Painel de Cálculo</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">v1.0.0</span>
+            </div>
+
+            <div class="display-screen">
+                <div class="display-expression" id="displayExpr">Pronto para calcular</div>
+                <div class="display-result" id="displayRes">0</div>
+            </div>
+
+            <div id="alertBox" class="alert-box alert-error"></div>
+
+            <div class="form-group">
+                <label>Operando A</label>
+                <input type="number" step="any" id="inputA" class="form-control" placeholder="Digite o primeiro número" value="10">
+            </div>
+
+            <div class="form-group" id="groupB">
+                <label>Operando B</label>
+                <input type="number" step="any" id="inputB" class="form-control" placeholder="Digite o segundo número" value="5">
+            </div>
+
+            <div class="form-group">
+                <label>Operação</label>
+                <div class="operations-grid">
+                    <button type="button" class="op-btn active" data-op="SOMA" onclick="selectOp('SOMA', '+')">
+                        + <span>Adição</span>
+                    </button>
+                    <button type="button" class="op-btn" data-op="SUBTRACAO" onclick="selectOp('SUBTRACAO', '-')">
+                        - <span>Subtração</span>
+                    </button>
+                    <button type="button" class="op-btn" data-op="MULTIPLICACAO" onclick="selectOp('MULTIPLICACAO', '*')">
+                        × <span>Multiplicação</span>
+                    </button>
+                    <button type="button" class="op-btn" data-op="DIVISAO" onclick="selectOp('DIVISAO', '/')">
+                        ÷ <span>Divisão</span>
+                    </button>
+                    <button type="button" class="op-btn" data-op="POTENCIA" onclick="selectOp('POTENCIA', '^')">
+                        xʸ <span>Potência</span>
+                    </button>
+                    <button type="button" class="op-btn" data-op="RAIZ_QUADRADA" onclick="selectOp('RAIZ_QUADRADA', '√')">
+                        √ <span>Raiz Quadrada</span>
+                    </button>
+                </div>
+            </div>
+
+            <button type="button" class="calc-submit" onclick="executarCalculo()">
+                Calcular & Salvar no Histórico
+            </button>
+        </div>
+
+        <!-- Histórico e Persistência -->
+        <div class="card">
+            <div class="card-title">
+                <span>Histórico de Operações (H2)</span>
+                <button onclick="carregarHistorico()" style="background: none; border: 1px solid var(--card-border); color: var(--text-muted); border-radius: 8px; padding: 4px 10px; cursor: pointer; font-size: 0.8rem;">
+                    🔄 Atualizar
+                </button>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="empty-history">Carregando histórico...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="links-bar">
+        <a href="/h2-console" target="_blank" class="api-link">
+            🗄️ Console H2 (jdbc:h2:mem:calculadoradb)
+        </a>
+        <a href="/api/calculadora/historico" target="_blank" class="api-link">
+            📡 Endpoint JSON /api/calculadora/historico
+        </a>
+    </div>
+
+    <script>
+        let operacaoAtual = 'SOMA';
+
+        function selectOp(op, simbolo) {
+            operacaoAtual = op;
+            document.querySelectorAll('.op-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.op === op);
+            });
+
+            const groupB = document.getElementById('groupB');
+            if (op === 'RAIZ_QUADRADA') {
+                groupB.style.display = 'none';
+            } else {
+                groupB.style.display = 'block';
+            }
+        }
+
+        async function executarCalculo() {
+            const a = parseFloat(document.getElementById('inputA').value);
+            const bVal = document.getElementById('inputB').value;
+            const b = operacaoAtual === 'RAIZ_QUADRADA' ? null : parseFloat(bVal);
+
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.display = 'none';
+
+            if (isNaN(a)) {
+                mostrarErro('Por favor, informe um valor numérico válido para o Operando A.');
+                return;
+            }
+            if (operacaoAtual !== 'RAIZ_QUADRADA' && isNaN(b)) {
+                mostrarErro('Por favor, informe um valor numérico válido para o Operando B.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/calculadora/calcular', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Usuario': 'interface-web'
+                    },
+                    body: JSON.stringify({
+                        operacao: operacaoAtual,
+                        operandoA: a,
+                        operandoB: b
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    mostrarErro(data.mensagem || 'Erro ao processar cálculo');
+                    return;
+                }
+
+                document.getElementById('displayExpr').textContent = data.expressao;
+                document.getElementById('displayRes').textContent = Number(data.resultado.toFixed(6));
+                carregarHistorico();
+
+            } catch (err) {
+                mostrarErro('Não foi possível conectar ao servidor: ' + err.message);
+            }
+        }
+
+        async function carregarHistorico() {
+            try {
+                const res = await fetch('/api/calculadora/historico');
+                if (!res.ok) return;
+                const lista = await res.json();
+                const container = document.getElementById('historyList');
+
+                if (lista.length === 0) {
+                    container.innerHTML = '<div class="empty-history">Nenhum cálculo registrado ainda.</div>';
+                    return;
+                }
+
+                container.innerHTML = lista.map(item => `
+                    <div class="history-item">
+                        <div>
+                            <div class="history-expr">${item.expressao}</div>
+                            <div class="history-meta">${new Date(item.dataHora).toLocaleString('pt-BR')} • ID #${item.id}</div>
+                        </div>
+                        <div class="history-res">${Number(item.resultado.toFixed(4))}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Erro ao listar histórico', e);
+            }
+        }
+
+        function mostrarErro(msg) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = '⚠️ ' + msg;
+            alertBox.style.display = 'block';
+        }
+
+        // Inicializar histórico ao carregar página
+        carregarHistorico();
+    </script>
+</body>
+</html>

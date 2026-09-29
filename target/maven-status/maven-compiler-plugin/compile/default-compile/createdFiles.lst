@@ -1,0 +1,15 @@
+com/pucrs/calculadora/dto/CalculoRequest.class
+com/pucrs/calculadora/service/AuditoriaService.class
+com/pucrs/calculadora/dto/CalculoResponse.class
+com/pucrs/calculadora/model/HistoricoCalculo.class
+com/pucrs/calculadora/service/HistoricoService.class
+com/pucrs/calculadora/exception/OperacaoInvalidaException.class
+com/pucrs/calculadora/model/Operacao.class
+com/pucrs/calculadora/CalculadoraApplication.class
+com/pucrs/calculadora/controller/CalculadoraController.class
+com/pucrs/calculadora/controller/GlobalExceptionHandler.class
+com/pucrs/calculadora/dto/ErroResponse.class
+com/pucrs/calculadora/service/CalculadoraService.class
+com/pucrs/calculadora/repository/HistoricoCalculoRepository.class
+com/pucrs/calculadora/service/CalculadoraService$1.class
+com/pucrs/calculadora/exception/DivisaoPorZeroException.class

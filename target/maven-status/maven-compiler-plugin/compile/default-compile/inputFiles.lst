@@ -1,0 +1,14 @@
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/CalculadoraApplication.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/controller/CalculadoraController.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/controller/GlobalExceptionHandler.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/dto/CalculoRequest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/dto/CalculoResponse.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/dto/ErroResponse.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/exception/DivisaoPorZeroException.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/exception/OperacaoInvalidaException.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/model/HistoricoCalculo.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/model/Operacao.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/repository/HistoricoCalculoRepository.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/service/AuditoriaService.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/service/CalculadoraService.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/main/java/com/pucrs/calculadora/service/HistoricoService.java

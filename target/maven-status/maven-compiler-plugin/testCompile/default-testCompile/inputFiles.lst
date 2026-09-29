@@ -1,0 +1,7 @@
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/CalculadoraApplicationTests.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/controller/CalculadoraControllerTest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/integration/CalculadoraIntegrationTest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/repository/HistoricoCalculoRepositoryTest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/service/CalculadoraServiceLifecycleTest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/service/CalculadoraServiceUnitTest.java
+/home/lucas-taborda/Área de trabalho/Pucrs 26.02/contrução de Software/Semana 5/Calculadora/src/test/java/com/pucrs/calculadora/service/HistoricoServiceMockitoTest.java

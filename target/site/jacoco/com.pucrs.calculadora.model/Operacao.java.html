@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Operacao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.model</a> &gt; <span class="el_source">Operacao.java</span></div><h1>Operacao.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.model;
+
+<span class="fc" id="L3">public enum Operacao {</span>
+<span class="fc" id="L4">    SOMA(&quot;+&quot;, &quot;Adição&quot;),</span>
+<span class="fc" id="L5">    SUBTRACAO(&quot;-&quot;, &quot;Subtração&quot;),</span>
+<span class="fc" id="L6">    MULTIPLICACAO(&quot;*&quot;, &quot;Multiplicação&quot;),</span>
+<span class="fc" id="L7">    DIVISAO(&quot;/&quot;, &quot;Divisão&quot;),</span>
+<span class="fc" id="L8">    POTENCIA(&quot;^&quot;, &quot;Potenciação&quot;),</span>
+<span class="fc" id="L9">    RAIZ_QUADRADA(&quot;√&quot;, &quot;Raiz Quadrada&quot;);</span>
+
+    private final String simbolo;
+    private final String descricao;
+
+<span class="fc" id="L14">    Operacao(String simbolo, String descricao) {</span>
+<span class="fc" id="L15">        this.simbolo = simbolo;</span>
+<span class="fc" id="L16">        this.descricao = descricao;</span>
+<span class="fc" id="L17">    }</span>
+
+    public String getSimbolo() {
+<span class="fc" id="L20">        return simbolo;</span>
+    }
+
+    public String getDescricao() {
+<span class="nc" id="L24">        return descricao;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

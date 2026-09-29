@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculadoraService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.service</a> &gt; <span class="el_source">CalculadoraService.java</span></div><h1>CalculadoraService.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.service;
+
+import com.pucrs.calculadora.exception.DivisaoPorZeroException;
+import com.pucrs.calculadora.exception.OperacaoInvalidaException;
+import com.pucrs.calculadora.model.Operacao;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L9">public class CalculadoraService {</span>
+
+    public double somar(double a, double b) {
+<span class="fc" id="L12">        return a + b;</span>
+    }
+
+    public double subtrair(double a, double b) {
+<span class="fc" id="L16">        return a - b;</span>
+    }
+
+    public double multiplicar(double a, double b) {
+<span class="fc" id="L20">        return a * b;</span>
+    }
+
+    public double dividir(double a, double b) {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (b == 0.0) {</span>
+<span class="fc" id="L25">            throw new DivisaoPorZeroException(&quot;Divisão por zero não é permitida&quot;);</span>
+        }
+<span class="fc" id="L27">        return a / b;</span>
+    }
+
+    public double potencia(double base, double expoente) {
+<span class="fc" id="L31">        return Math.pow(base, expoente);</span>
+    }
+
+    public double raizQuadrada(double valor) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (valor &lt; 0.0) {</span>
+<span class="fc" id="L36">            throw new OperacaoInvalidaException(&quot;Não é possível calcular raiz quadrada de número negativo no conjunto dos reais: &quot; + valor);</span>
+        }
+<span class="fc" id="L38">        return Math.sqrt(valor);</span>
+    }
+
+    public double calcular(Operacao operacao, Double a, Double b) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (operacao == null) {</span>
+<span class="fc" id="L43">            throw new OperacaoInvalidaException(&quot;A operação não pode ser nula&quot;);</span>
+        }
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (a == null) {</span>
+<span class="fc" id="L46">            throw new OperacaoInvalidaException(&quot;O primeiro operando (a) não pode ser nulo&quot;);</span>
+        }
+
+<span class="fc bfc" id="L49" title="All 6 branches covered.">        return switch (operacao) {</span>
+            case SOMA -&gt; {
+<span class="fc" id="L51">                validarSegundoOperandoObrigatorio(operacao, b);</span>
+<span class="fc" id="L52">                yield somar(a, b);</span>
+            }
+            case SUBTRACAO -&gt; {
+<span class="fc" id="L55">                validarSegundoOperandoObrigatorio(operacao, b);</span>
+<span class="fc" id="L56">                yield subtrair(a, b);</span>
+            }
+            case MULTIPLICACAO -&gt; {
+<span class="fc" id="L59">                validarSegundoOperandoObrigatorio(operacao, b);</span>
+<span class="fc" id="L60">                yield multiplicar(a, b);</span>
+            }
+            case DIVISAO -&gt; {
+<span class="fc" id="L63">                validarSegundoOperandoObrigatorio(operacao, b);</span>
+<span class="fc" id="L64">                yield dividir(a, b);</span>
+            }
+            case POTENCIA -&gt; {
+<span class="fc" id="L67">                validarSegundoOperandoObrigatorio(operacao, b);</span>
+<span class="fc" id="L68">                yield potencia(a, b);</span>
+            }
+<span class="fc" id="L70">            case RAIZ_QUADRADA -&gt; raizQuadrada(a);</span>
+        };
+    }
+
+    public String formatarExpressao(Operacao operacao, Double a, Double b, Double resultado) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (operacao == Operacao.RAIZ_QUADRADA) {</span>
+<span class="fc" id="L76">            return String.format(java.util.Locale.US, &quot;√%.2f = %.4f&quot;, a, resultado);</span>
+        }
+<span class="fc" id="L78">        return String.format(java.util.Locale.US, &quot;%.2f %s %.2f = %.4f&quot;, a, operacao.getSimbolo(), b, resultado);</span>
+    }
+
+    private void validarSegundoOperandoObrigatorio(Operacao operacao, Double b) {
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (b == null) {</span>
+<span class="fc" id="L83">            throw new OperacaoInvalidaException(&quot;O segundo operando (b) é obrigatório para a operação &quot; + operacao);</span>
+        }
+<span class="fc" id="L85">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

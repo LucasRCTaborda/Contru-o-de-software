@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculadoraController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.controller</a> &gt; <span class="el_source">CalculadoraController.java</span></div><h1>CalculadoraController.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.controller;
+
+import com.pucrs.calculadora.dto.CalculoRequest;
+import com.pucrs.calculadora.dto.CalculoResponse;
+import com.pucrs.calculadora.model.Operacao;
+import com.pucrs.calculadora.service.CalculadoraService;
+import com.pucrs.calculadora.service.HistoricoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/calculadora&quot;)
+public class CalculadoraController {
+
+    private final CalculadoraService calculadoraService;
+    private final HistoricoService historicoService;
+
+<span class="fc" id="L22">    public CalculadoraController(CalculadoraService calculadoraService, HistoricoService historicoService) {</span>
+<span class="fc" id="L23">        this.calculadoraService = calculadoraService;</span>
+<span class="fc" id="L24">        this.historicoService = historicoService;</span>
+<span class="fc" id="L25">    }</span>
+
+    @PostMapping(&quot;/calcular&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; calcular(
+            @Valid @RequestBody CalculoRequest request,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L31">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L32">        return ResponseEntity.status(HttpStatus.CREATED).body(response);</span>
+    }
+
+    @GetMapping(&quot;/somar&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; somar(
+            @RequestParam double a,
+            @RequestParam double b,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L40">        CalculoRequest request = new CalculoRequest(Operacao.SOMA, a, b);</span>
+<span class="fc" id="L41">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L42">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/subtrair&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; subtrair(
+            @RequestParam double a,
+            @RequestParam double b,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L50">        CalculoRequest request = new CalculoRequest(Operacao.SUBTRACAO, a, b);</span>
+<span class="fc" id="L51">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L52">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/multiplicar&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; multiplicar(
+            @RequestParam double a,
+            @RequestParam double b,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L60">        CalculoRequest request = new CalculoRequest(Operacao.MULTIPLICACAO, a, b);</span>
+<span class="fc" id="L61">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L62">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/dividir&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; dividir(
+            @RequestParam double a,
+            @RequestParam double b,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L70">        CalculoRequest request = new CalculoRequest(Operacao.DIVISAO, a, b);</span>
+<span class="nc" id="L71">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="nc" id="L72">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/potencia&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; potencia(
+            @RequestParam double base,
+            @RequestParam double expoente,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L80">        CalculoRequest request = new CalculoRequest(Operacao.POTENCIA, base, expoente);</span>
+<span class="fc" id="L81">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L82">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/raiz&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; raiz(
+            @RequestParam double valor,
+            @RequestHeader(value = &quot;X-Usuario&quot;, defaultValue = &quot;usuario-padrao&quot;) String usuario) {
+<span class="fc" id="L89">        CalculoRequest request = new CalculoRequest(Operacao.RAIZ_QUADRADA, valor, null);</span>
+<span class="fc" id="L90">        CalculoResponse response = historicoService.executarESalvar(request, usuario);</span>
+<span class="fc" id="L91">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;/historico&quot;)
+    public ResponseEntity&lt;List&lt;CalculoResponse&gt;&gt; listarHistorico(
+            @RequestParam(required = false) Operacao operacao) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        List&lt;CalculoResponse&gt; historico = (operacao != null)</span>
+<span class="fc" id="L98">                ? historicoService.listarPorOperacao(operacao)</span>
+<span class="fc" id="L99">                : historicoService.listarHistoricoRecente();</span>
+<span class="fc" id="L100">        return ResponseEntity.ok(historico);</span>
+    }
+
+    @GetMapping(&quot;/historico/{id}&quot;)
+    public ResponseEntity&lt;CalculoResponse&gt; buscarPorId(@PathVariable Long id) {
+<span class="fc" id="L105">        return ResponseEntity.ok(historicoService.buscarPorId(id));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

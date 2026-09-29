@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.pucrs.calculadora.service.HistoricoServiceMockitoTest
+-------------------------------------------------------------------------------
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.202 s -- in com.pucrs.calculadora.service.HistoricoServiceMockitoTest

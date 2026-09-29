@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistoricoCalculo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.model</a> &gt; <span class="el_source">HistoricoCalculo.java</span></div><h1>HistoricoCalculo.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;historico_calculos&quot;)
+public class HistoricoCalculo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private Operacao operacao;
+
+    @Column(nullable = false)
+    private Double operandoA;
+
+    @Column(nullable = true)
+    private Double operandoB;
+
+    @Column(nullable = false)
+    private Double resultado;
+
+    @Column(nullable = false)
+    private LocalDateTime dataHora;
+
+<span class="fc" id="L31">    public HistoricoCalculo() {</span>
+<span class="fc" id="L32">        this.dataHora = LocalDateTime.now();</span>
+<span class="fc" id="L33">    }</span>
+
+<span class="fc" id="L35">    public HistoricoCalculo(Operacao operacao, Double operandoA, Double operandoB, Double resultado) {</span>
+<span class="fc" id="L36">        this.operacao = operacao;</span>
+<span class="fc" id="L37">        this.operandoA = operandoA;</span>
+<span class="fc" id="L38">        this.operandoB = operandoB;</span>
+<span class="fc" id="L39">        this.resultado = resultado;</span>
+<span class="fc" id="L40">        this.dataHora = LocalDateTime.now();</span>
+<span class="fc" id="L41">    }</span>
+
+<span class="fc" id="L43">    public HistoricoCalculo(Long id, Operacao operacao, Double operandoA, Double operandoB, Double resultado, LocalDateTime dataHora) {</span>
+<span class="fc" id="L44">        this.id = id;</span>
+<span class="fc" id="L45">        this.operacao = operacao;</span>
+<span class="fc" id="L46">        this.operandoA = operandoA;</span>
+<span class="fc" id="L47">        this.operandoB = operandoB;</span>
+<span class="fc" id="L48">        this.resultado = resultado;</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        this.dataHora = dataHora != null ? dataHora : LocalDateTime.now();</span>
+<span class="fc" id="L50">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L53">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L57">        this.id = id;</span>
+<span class="nc" id="L58">    }</span>
+
+    public Operacao getOperacao() {
+<span class="fc" id="L61">        return operacao;</span>
+    }
+
+    public void setOperacao(Operacao operacao) {
+<span class="nc" id="L65">        this.operacao = operacao;</span>
+<span class="nc" id="L66">    }</span>
+
+    public Double getOperandoA() {
+<span class="fc" id="L69">        return operandoA;</span>
+    }
+
+    public void setOperandoA(Double operandoA) {
+<span class="nc" id="L73">        this.operandoA = operandoA;</span>
+<span class="nc" id="L74">    }</span>
+
+    public Double getOperandoB() {
+<span class="fc" id="L77">        return operandoB;</span>
+    }
+
+    public void setOperandoB(Double operandoB) {
+<span class="nc" id="L81">        this.operandoB = operandoB;</span>
+<span class="nc" id="L82">    }</span>
+
+    public Double getResultado() {
+<span class="fc" id="L85">        return resultado;</span>
+    }
+
+    public void setResultado(Double resultado) {
+<span class="nc" id="L89">        this.resultado = resultado;</span>
+<span class="nc" id="L90">    }</span>
+
+    public LocalDateTime getDataHora() {
+<span class="fc" id="L93">        return dataHora;</span>
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+<span class="nc" id="L97">        this.dataHora = dataHora;</span>
+<span class="nc" id="L98">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L104">        HistoricoCalculo that = (HistoricoCalculo) o;</span>
+<span class="nc" id="L105">        return Objects.equals(id, that.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L110">        return Objects.hash(id);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistoricoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.service</a> &gt; <span class="el_source">HistoricoService.java</span></div><h1>HistoricoService.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.service;
+
+import com.pucrs.calculadora.dto.CalculoRequest;
+import com.pucrs.calculadora.dto.CalculoResponse;
+import com.pucrs.calculadora.exception.OperacaoInvalidaException;
+import com.pucrs.calculadora.model.HistoricoCalculo;
+import com.pucrs.calculadora.model.Operacao;
+import com.pucrs.calculadora.repository.HistoricoCalculoRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class HistoricoService {
+
+    private final CalculadoraService calculadoraService;
+    private final AuditoriaService auditoriaService;
+    private final HistoricoCalculoRepository historicoRepository;
+
+    public HistoricoService(CalculadoraService calculadoraService,
+                            AuditoriaService auditoriaService,
+<span class="fc" id="L23">                            HistoricoCalculoRepository historicoRepository) {</span>
+<span class="fc" id="L24">        this.calculadoraService = calculadoraService;</span>
+<span class="fc" id="L25">        this.auditoriaService = auditoriaService;</span>
+<span class="fc" id="L26">        this.historicoRepository = historicoRepository;</span>
+<span class="fc" id="L27">    }</span>
+
+    @Transactional
+    public CalculoResponse executarESalvar(CalculoRequest request, String usuario) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (!auditoriaService.isOperacaoPermitida(request.getOperacao(), usuario)) {</span>
+<span class="fc" id="L32">            throw new OperacaoInvalidaException(&quot;Usuário não autorizado a realizar operações de cálculo&quot;);</span>
+        }
+
+<span class="fc" id="L35">        double resultado = calculadoraService.calcular(request.getOperacao(), request.getOperandoA(), request.getOperandoB());</span>
+
+        // Salvar no histórico
+<span class="fc" id="L38">        HistoricoCalculo historico = new HistoricoCalculo(</span>
+<span class="fc" id="L39">                request.getOperacao(),</span>
+<span class="fc" id="L40">                request.getOperandoA(),</span>
+<span class="fc" id="L41">                request.getOperandoB(),</span>
+<span class="fc" id="L42">                resultado</span>
+        );
+<span class="fc" id="L44">        HistoricoCalculo salvo = historicoRepository.save(historico);</span>
+
+        // Registrar auditoria
+<span class="fc" id="L47">        auditoriaService.registrarAuditoria(request.getOperacao(), resultado, usuario);</span>
+
+<span class="fc" id="L49">        String expressao = calculadoraService.formatarExpressao(</span>
+<span class="fc" id="L50">                request.getOperacao(),</span>
+<span class="fc" id="L51">                request.getOperandoA(),</span>
+<span class="fc" id="L52">                request.getOperandoB(),</span>
+<span class="fc" id="L53">                resultado</span>
+        );
+
+<span class="fc" id="L56">        return new CalculoResponse(</span>
+<span class="fc" id="L57">                salvo.getId(),</span>
+<span class="fc" id="L58">                salvo.getOperacao(),</span>
+<span class="fc" id="L59">                salvo.getOperandoA(),</span>
+<span class="fc" id="L60">                salvo.getOperandoB(),</span>
+<span class="fc" id="L61">                salvo.getResultado(),</span>
+                expressao,
+<span class="fc" id="L63">                salvo.getDataHora()</span>
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;CalculoResponse&gt; listarHistoricoRecente() {
+<span class="fc" id="L69">        return historicoRepository.findTop10ByOrderByDataHoraDesc()</span>
+<span class="fc" id="L70">                .stream()</span>
+<span class="fc" id="L71">                .map(this::mapToResponse)</span>
+<span class="fc" id="L72">                .toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;CalculoResponse&gt; listarPorOperacao(Operacao operacao) {
+<span class="fc" id="L77">        return historicoRepository.findByOperacao(operacao)</span>
+<span class="fc" id="L78">                .stream()</span>
+<span class="fc" id="L79">                .map(this::mapToResponse)</span>
+<span class="fc" id="L80">                .toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public CalculoResponse buscarPorId(Long id) {
+<span class="fc" id="L85">        HistoricoCalculo historico = historicoRepository.findById(id)</span>
+<span class="fc" id="L86">                .orElseThrow(() -&gt; new OperacaoInvalidaException(&quot;Cálculo não encontrado com o ID: &quot; + id));</span>
+<span class="fc" id="L87">        return mapToResponse(historico);</span>
+    }
+
+    private CalculoResponse mapToResponse(HistoricoCalculo h) {
+<span class="fc" id="L91">        String expressao = calculadoraService.formatarExpressao(h.getOperacao(), h.getOperandoA(), h.getOperandoB(), h.getResultado());</span>
+<span class="fc" id="L92">        return new CalculoResponse(</span>
+<span class="fc" id="L93">                h.getId(),</span>
+<span class="fc" id="L94">                h.getOperacao(),</span>
+<span class="fc" id="L95">                h.getOperandoA(),</span>
+<span class="fc" id="L96">                h.getOperandoB(),</span>
+<span class="fc" id="L97">                h.getResultado(),</span>
+                expressao,
+<span class="fc" id="L99">                h.getDataHora()</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

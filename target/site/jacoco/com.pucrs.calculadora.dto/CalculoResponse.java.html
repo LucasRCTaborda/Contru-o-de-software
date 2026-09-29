@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculoResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculadora</a> &gt; <a href="index.source.html" class="el_package">com.pucrs.calculadora.dto</a> &gt; <span class="el_source">CalculoResponse.java</span></div><h1>CalculoResponse.java</h1><pre class="source lang-java linenums">package com.pucrs.calculadora.dto;
+
+import com.pucrs.calculadora.model.Operacao;
+import java.time.LocalDateTime;
+
+public class CalculoResponse {
+
+    private Long id;
+    private Operacao operacao;
+    private Double operandoA;
+    private Double operandoB;
+    private Double resultado;
+    private String expressao;
+    private LocalDateTime dataHora;
+
+<span class="nc" id="L16">    public CalculoResponse() {</span>
+<span class="nc" id="L17">    }</span>
+
+<span class="fc" id="L19">    public CalculoResponse(Long id, Operacao operacao, Double operandoA, Double operandoB, Double resultado, String expressao, LocalDateTime dataHora) {</span>
+<span class="fc" id="L20">        this.id = id;</span>
+<span class="fc" id="L21">        this.operacao = operacao;</span>
+<span class="fc" id="L22">        this.operandoA = operandoA;</span>
+<span class="fc" id="L23">        this.operandoB = operandoB;</span>
+<span class="fc" id="L24">        this.resultado = resultado;</span>
+<span class="fc" id="L25">        this.expressao = expressao;</span>
+<span class="fc" id="L26">        this.dataHora = dataHora;</span>
+<span class="fc" id="L27">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L30">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L34">        this.id = id;</span>
+<span class="nc" id="L35">    }</span>
+
+    public Operacao getOperacao() {
+<span class="fc" id="L38">        return operacao;</span>
+    }
+
+    public void setOperacao(Operacao operacao) {
+<span class="nc" id="L42">        this.operacao = operacao;</span>
+<span class="nc" id="L43">    }</span>
+
+    public Double getOperandoA() {
+<span class="fc" id="L46">        return operandoA;</span>
+    }
+
+    public void setOperandoA(Double operandoA) {
+<span class="nc" id="L50">        this.operandoA = operandoA;</span>
+<span class="nc" id="L51">    }</span>
+
+    public Double getOperandoB() {
+<span class="fc" id="L54">        return operandoB;</span>
+    }
+
+    public void setOperandoB(Double operandoB) {
+<span class="nc" id="L58">        this.operandoB = operandoB;</span>
+<span class="nc" id="L59">    }</span>
+
+    public Double getResultado() {
+<span class="fc" id="L62">        return resultado;</span>
+    }
+
+    public void setResultado(Double resultado) {
+<span class="nc" id="L66">        this.resultado = resultado;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getExpressao() {
+<span class="fc" id="L70">        return expressao;</span>
+    }
+
+    public void setExpressao(String expressao) {
+<span class="nc" id="L74">        this.expressao = expressao;</span>
+<span class="nc" id="L75">    }</span>
+
+    public LocalDateTime getDataHora() {
+<span class="fc" id="L78">        return dataHora;</span>
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+<span class="nc" id="L82">        this.dataHora = dataHora;</span>
+<span class="nc" id="L83">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
